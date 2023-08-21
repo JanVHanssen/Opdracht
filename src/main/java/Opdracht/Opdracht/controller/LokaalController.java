@@ -2,10 +2,12 @@ package Opdracht.Opdracht.controller;
 
 import Opdracht.Opdracht.entity.Lokaal;
 import Opdracht.Opdracht.service.LokaalService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class LokaalController {
@@ -24,7 +26,24 @@ public class LokaalController {
         Lokaal lokaal = lokaalService.getLokaalById(lokaalId);
         return new ResponseEntity<>(lokaal, HttpStatus.OK);
     }
-
+    @GetMapping("/lokaal/availableFrom")
+    public ResponseEntity<List<Lokaal>> getAvailableFromLokalen(
+            @RequestParam("startDateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime) {
+        List<Lokaal> availableFromLokalen = lokaalService.getAvailableLokalenStartingFromDate(startDateTime);
+        return new ResponseEntity<>(availableFromLokalen, HttpStatus.OK);
+    }
+    @GetMapping("/lokaal/availableUntil")
+    public ResponseEntity<List<Lokaal>> getAvailableUntilLokalen(
+            @RequestParam("endDateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateTime) {
+        List<Lokaal> availableUntilLokalen = lokaalService.getAvailableLokalenUntilEndDate(endDateTime);
+        return new ResponseEntity<>(availableUntilLokalen, HttpStatus.OK);
+    }
+    @GetMapping("/lokaal/minNumberOfSeats")
+    public ResponseEntity<List<Lokaal>> getLokalenWithMinimumCapacity(
+            @RequestParam("minimumCapacity") int minimumCapacity) {
+        List<Lokaal> lokalenWithMinimumCapacity = lokaalService.getLokalenWithMinimumCapacity(minimumCapacity);
+        return new ResponseEntity<>(lokalenWithMinimumCapacity, HttpStatus.OK);
+    }
     @GetMapping("/lokaal/")
     public ResponseEntity<List<Lokaal>> getAllLokalen(){
         List<Lokaal> lokalen = lokaalService.getAllLokalen();

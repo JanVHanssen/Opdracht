@@ -7,6 +7,7 @@ import Opdracht.Opdracht.service.LokaalService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,5 +48,14 @@ public class LokaalServiceImpl implements LokaalService {
     @Override
     public void deleteLokaal(Long lokaalId) {
         lokaalRepository.deleteById(lokaalId);
+    }
+    public List<Lokaal> getAvailableLokalenStartingFromDate(LocalDateTime startDate) {
+        return lokaalRepository.findAvailableLokalen(startDate);
+    }
+    public List<Lokaal> getAvailableLokalenUntilEndDate(LocalDateTime endDate) {
+        return lokaalRepository.findAvailableLokalenUntilEndDate(endDate);
+    }
+    public List<Lokaal> getLokalenWithMinimumCapacity(int minimumCapacity) {
+        return lokaalRepository.findByCapaciteitGreaterThanEqual(minimumCapacity);
     }
 }

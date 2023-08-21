@@ -28,6 +28,7 @@ public class Reservatie {
     @Column(name = "max_aantal")
     private Long max_aantal;
     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lokaal_id")
     public Lokaal lokaal;
     @ManyToOne(cascade = CascadeType.ALL)
     public User user;

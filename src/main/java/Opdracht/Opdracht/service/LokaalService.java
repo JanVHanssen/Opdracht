@@ -2,6 +2,7 @@ package Opdracht.Opdracht.service;
 
 import Opdracht.Opdracht.entity.Lokaal;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface LokaalService {
@@ -15,4 +16,9 @@ public interface LokaalService {
     Lokaal updateLokaal(Lokaal lokaal);
 
     void deleteLokaal(Long lokaalId);
+
+    public List<Lokaal> getAvailableLokalenStartingFromDate(LocalDateTime startDate);
+    public List<Lokaal> getAvailableLokalenUntilEndDate(LocalDateTime endDate);
+    public List<Lokaal> getLokalenWithMinimumCapacity(int minimumCapacity);
+
 }

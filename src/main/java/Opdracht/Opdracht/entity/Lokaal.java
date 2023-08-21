@@ -28,5 +28,4 @@ public class Lokaal {
     @ManyToOne
     private Campus campus;
 
-
 }
