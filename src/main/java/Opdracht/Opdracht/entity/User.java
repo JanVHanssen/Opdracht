@@ -21,13 +21,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "voorNaam")
-    private String voorNaam;
-    @Column(name = "achterNaam")
-    private String achterNaam;
+    @Column(name = "voornaam")
+    private String voornaam;
+    @Column(name = "achternaam")
+    private String achternaam;
     @Column(name = "email", unique = true)
     private String email;
-    @Column(name = "geboorteDatum")
-    private LocalDate geboorteDatum;
+    @Column(name = "geboortedatum")
+    private LocalDate geboortedatum;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Reservatie> reservaties = new ArrayList<>();
 
 }

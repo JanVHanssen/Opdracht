@@ -1,5 +1,6 @@
 package Opdracht.Opdracht.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,9 @@ public class Lokaal {
     private Long capaciteit;
     @Column(name = "verdieping")
     private Long verdieping;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "campus_id")
+    @JsonIgnore
     private Campus campus;
 
 }

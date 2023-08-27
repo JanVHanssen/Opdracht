@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
+
+import java.util.ArrayList;
+
 
 @Getter
 @Setter
@@ -27,6 +29,6 @@ public class Campus {
     private Long parkeerplaatsen;
     @Column(name = "aantal_lokalen")
     private Long aantal_lokalen;
-    @OneToMany(cascade = CascadeType.ALL)
-    public Lokaal lokaal;
+    @OneToMany(mappedBy = "campus", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lokaal> lokalen = new ArrayList<>();
 }

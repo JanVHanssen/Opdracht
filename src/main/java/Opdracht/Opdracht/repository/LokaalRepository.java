@@ -4,9 +4,10 @@ import Opdracht.Opdracht.entity.Lokaal;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-
+@Repository
 public interface LokaalRepository extends JpaRepository<Lokaal, Long> {
     @Query("SELECT l FROM Lokaal l WHERE l NOT IN " +
             "(SELECT r.lokaal FROM Reservatie r " +

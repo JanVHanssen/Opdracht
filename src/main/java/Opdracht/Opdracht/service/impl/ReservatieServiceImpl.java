@@ -1,9 +1,16 @@
 package Opdracht.Opdracht.service.impl;
 
+import Opdracht.Opdracht.entity.Campus;
+import Opdracht.Opdracht.entity.Lokaal;
 import Opdracht.Opdracht.entity.Reservatie;
+import Opdracht.Opdracht.entity.User;
+import Opdracht.Opdracht.repository.CampusRepository;
 import Opdracht.Opdracht.repository.ReservatieRepository;
+import Opdracht.Opdracht.repository.UserRepository;
 import Opdracht.Opdracht.service.ReservatieService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
@@ -13,11 +20,19 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ReservatieServiceImpl implements ReservatieService {
-
+    @Autowired
     private ReservatieRepository reservatieRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Reservatie createReservatie(Reservatie reservatie) {
+        User user = userRepository.findById(reservatie.getUser().getId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        reservatie.setUser(user);
+
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if (reservatie.getStart().isBefore(currentDateTime)) {
@@ -60,10 +75,12 @@ public class ReservatieServiceImpl implements ReservatieService {
         if (reservatie.getStart().isAfter(reservatie.getEinde())) {
             throw new IllegalArgumentException("Start date is after the end date");
         }
-        List<Reservatie> conflictingReservations = (List<Reservatie>) reservatieRepository.findByLokaalAndDates(
+        List<Reservatie> conflictingReservations = reservatieRepository.findByLokaalAndStartBetweenAndEindeBetween(
                 existingReservatie.getLokaal(),
                 reservatie.getStart(),
-                reservatie.getEinde()
+                reservatie.getEinde(),
+                existingReservatie.getStart(),
+                existingReservatie.getEinde()
         );
 
         if (!conflictingReservations.isEmpty()) {

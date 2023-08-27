@@ -4,19 +4,16 @@ import Opdracht.Opdracht.entity.User;
 import Opdracht.Opdracht.repository.UserRepository;
 import Opdracht.Opdracht.service.UserService;
 import lombok.AllArgsConstructor;
-
-import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-
+    @Autowired
     private UserRepository userRepository;
 
     @Override
@@ -38,10 +35,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         User existingUser = userRepository.findById(user.getId()).get();
-        existingUser.setVoorNaam(user.getVoorNaam());
-        existingUser.setAchterNaam(user.getAchterNaam());
+        existingUser.setVoornaam(user.getVoornaam());
+        existingUser.setAchternaam(user.getAchternaam());
         existingUser.setEmail(user.getEmail());
-        existingUser.setGeboorteDatum(user.getGeboorteDatum());
+        existingUser.setGeboortedatum(user.getGeboortedatum());
         User updatedUser = userRepository.save(existingUser);
         return updatedUser;
     }
